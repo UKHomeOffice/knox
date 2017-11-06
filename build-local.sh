@@ -22,4 +22,7 @@ rm -rf *
 unzip $ZIP_BUILD 
 ln -s knox-${VERSION}/ current
 
+cd current
+./bin/knoxcli.sh create-master --generate
+
 cd $CURDIR
