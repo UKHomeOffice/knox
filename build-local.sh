@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=0.13.0-SNAPSHOT
+VERSION=0.13.0-PVGDPR-Sandbox-001
 
 DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 
