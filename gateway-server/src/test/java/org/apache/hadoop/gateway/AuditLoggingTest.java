@@ -198,7 +198,7 @@ public class AuditLoggingTest {
     try {
       dispatch.doGet( new URI( uri ), inboundRequest, outboundResponse );
       fail( "Expected exception while accessing to unreachable host" );
-    } catch ( Exception e ) {
+    } catch ( IOException e ) {
       Iterator<LoggingEvent> iterator = CollectAppender.queue.iterator();
 
       LoggingEvent unavailableEvent = iterator.next();

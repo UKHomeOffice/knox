@@ -60,6 +60,10 @@
             <groupId>${gateway-group}</groupId>
             <artifactId>gateway-util-urltemplate</artifactId>
         </dependency>
+        <dependency>
+              <groupId>com.google.guava</groupId>
+              <artifactId>guava</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
