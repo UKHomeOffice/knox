@@ -87,6 +87,19 @@
         <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>rest-assured</artifactId>
+<exclusions>
+
+  <exclusion>
+	<groupId>org.apache.httpcomponents</groupId>
+	<artifactId>httpcore</artifactId>
+  </exclusion>
+    <exclusion>
+	<groupId>com.google.code.gson</groupId>
+	<artifactId>gson</artifactId>
+  </exclusion>
+
+</exclusions>
+
             <scope>test</scope>
         </dependency>
         <dependency>

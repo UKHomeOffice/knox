@@ -58,11 +58,41 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
+<exclusions>
+  <exclusion>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>jsr305</artifactId>
+  </exclusion>
+  <exclusion>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+  </exclusion>
+  <exclusion>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+  </exclusion>
+    <exclusion>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+  </exclusion>
+
+
+</exclusions>
+
         </dependency>
 
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-auth</artifactId>
+<exclusions>
+  <exclusion>
+	<groupId>org.apache.curator</groupId>
+	<artifactId>curator-client</artifactId>
+  </exclusion>
+
+</exclusions>
+
+
         </dependency>
 
         <dependency>

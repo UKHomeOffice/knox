@@ -87,12 +87,12 @@
         <module>gateway-shell</module>
         <module>gateway-shell-launcher</module>
         <module>knox-cli-launcher</module>
-        <module>hadoop-examples</module>
+        <!--module>hadoop-examples</module -->
         <module>gateway-release</module>
         <module>gateway-test</module>
         <module>gateway-service-vault</module>
         <module>gateway-service-test</module>
-        <module>gateway-test-release</module>
+        <!--module>gateway-test-release</module-->
         <module>gateway-applications</module>
         <module>gateway-shell-samples</module>
         <module>gateway-shell-release</module>
@@ -314,6 +314,33 @@
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+                <version>3.5.1</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.3.1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-dependency-convergence</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <DependencyConvergence/>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>

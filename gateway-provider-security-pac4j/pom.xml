@@ -80,6 +80,15 @@
                     <groupId>xalan</groupId>
                     <artifactId>xalan</artifactId>
                 </exclusion>
+  <exclusion>
+	<groupId>net.minidev</groupId>
+	<artifactId>json-smart</artifactId>
+  </exclusion>
+  <exclusion>
+	<groupId>com.google.guava</groupId>
+	<artifactId>guava</artifactId>
+  </exclusion>
+
             </exclusions>
         </dependency>
 

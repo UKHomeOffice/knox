@@ -53,6 +53,12 @@
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
+            <exclusions>
+              <exclusion>
+	            <groupId>org.objenesis</groupId>
+	            <artifactId>objenesis</artifactId>
+              </exclusion>
+            </exclusions>
             <scope>test</scope>
         </dependency>
 
