@@ -1,17 +1,17 @@
 <service role="PVGDPR_SERVER" name="pvgdpr_server" version="0.0.1">
-    <policies>
-        <policy role="webappsec"/>
-        <policy role="authentication" name="Anonymous"/>
-        <policy role="rewrite"/>
-    </policies>
-    <routes>
-        <route path="/pvgdpr_server/**?**">
-        </route>
-        <route path="/pvgdpr_server/**">
-        </route>
-        <route path="/pvgdpr_server">
-        </route>
-    </routes>
-    <dispatch classname="org.apache.hadoop.gateway.dispatch.PassAllHeadersDispatch"/>
+ <policies>
+ <policy role="webappsec"/>
+ <policy role="authentication" name="Anonymous"/>
+ <policy role="rewrite"/>
+ </policies>
+ <routes>
+ <route path="/pvgdpr_server/**?**">
+ </route>
+ <route path="/pvgdpr_server/**">
+ </route>
+ <route path="/pvgdpr_server">
+ </route>
+ </routes>
+ <dispatch classname="org.apache.hadoop.gateway.dispatch.PassAllHeadersDispatch"/>
 </service>
 

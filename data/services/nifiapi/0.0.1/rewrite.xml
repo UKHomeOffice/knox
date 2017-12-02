@@ -1,21 +1,21 @@
 <rules>
-    <rule dir="IN" name="NIFIAPI/nifiapi/inbound/path_query" pattern="*://*:*/**/nifi-api/{path=**}?{**}">
-        <rewrite template="{$serviceUrl[NIFIAPI]}/{path}?{**}"/>
-    </rule>
-    <rule dir="IN" name="NIFIAPI/nifiapi/inbound/path" pattern="*://*:*/**/nifi-api/{**}">
-        <rewrite template="{$serviceUrl[NIFIAPI]}/{**}"/>
-    </rule>
-    <rule dir="IN" name="NIFIAPI/nifiapi/inbound/root" pattern="*://*:*/**/nifi-api">
-        <rewrite template="{$serviceUrl[NIFIAPI]}/"/>
-    </rule>
+ <rule dir="IN" name="NIFIAPI/nifiapi/inbound/path_query" pattern="*://*:*/**/nifi-api/{path=**}?{**}">
+ <rewrite template="{$serviceUrl[NIFIAPI]}/{path}?{**}"/>
+ </rule>
+ <rule dir="IN" name="NIFIAPI/nifiapi/inbound/path" pattern="*://*:*/**/nifi-api/{**}">
+ <rewrite template="{$serviceUrl[NIFIAPI]}/{**}"/>
+ </rule>
+ <rule dir="IN" name="NIFIAPI/nifiapi/inbound/root" pattern="*://*:*/**/nifi-api">
+ <rewrite template="{$serviceUrl[NIFIAPI]}/"/>
+ </rule>
     <rule dir="OUT" name="NIFIAPI/nifiapi/outbound/nifi-content-viewer" pattern="/nifi-content-viewer/" >
-        <rewrite template='{$frontend[path]}/nifi-content-viewer/'/>
+     <rewrite template='{$frontend[path]}/nifi-content-viewer/'/>
     </rule>
 
     <filter name="NIFIAPI/nifiapi/outbound/filter_fix_content">
-        <content type="application/json">
-            <apply path="/"  rule="NIFIAPI/nifiapi/outbound/nifi-content-viewer"/>
-        </content>
+     <content type="application/json">
+     <apply path="/"  rule="NIFIAPI/nifiapi/outbound/nifi-content-viewer"/>
+     </content>
 
     </filter>
 </rules>

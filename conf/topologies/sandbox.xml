@@ -93,43 +93,43 @@
     </gateway>
 
     <service>
-      <role>ES</role>   
-      <url>http://localhost:9200</url>
-    </service>
+    <role>ES</role> 
+    <url>http://localhost:9200</url>
+   </service>
 
     <service>
-      <role>PVGDPR_GUI</role>   
-      <url>http://localhost:3000</url>
-    </service>
+    <role>PVGDPR_GUI</role> 
+    <url>http://localhost:3000</url>
+   </service>
 
     <service>
-      <role>PVGDPR_SERVER</role>   
-      <url>http://localhost:3001</url>
-    </service>
+    <role>PVGDPR_SERVER</role> 
+    <url>http://localhost:3001</url>
+   </service>
 
     <service>
-      <role>PVGDPR_GRAPH</role>   
-      <url>http://localhost:8182</url>
-    </service>
+    <role>PVGDPR_GRAPH</role> 
+    <url>http://localhost:8182</url>
+   </service>
 
     <service>
-      <role>NIFI</role>   
-      <url>http://localhost:8080/nifi</url>
-    </service>
+    <role>NIFI</role> 
+    <url>http://localhost:8080/nifi</url>
+   </service>
 
     <service>
-      <role>NIFIAPI</role>   
-      <url>http://localhost:8080/nifi-api</url>
-    </service>
+    <role>NIFIAPI</role> 
+    <url>http://localhost:8080/nifi-api</url>
+   </service>
 
     <service>
-      <role>NIFIDOCS</role>   
-      <url>http://localhost:8080/nifi-docs</url>
-    </service>
+    <role>NIFIDOCS</role> 
+    <url>http://localhost:8080/nifi-docs</url>
+   </service>
 
     <service>
-      <role>NIFICONTENTVIEWER</role>   
-      <url>http://localhost:8080/nifi-content-viewer</url>
-    </service>
+    <role>NIFICONTENTVIEWER</role> 
+    <url>http://localhost:8080/nifi-content-viewer</url>
+   </service>
 
 </topology>

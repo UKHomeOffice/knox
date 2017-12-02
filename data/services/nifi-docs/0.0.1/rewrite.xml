@@ -1,8 +1,8 @@
 <rules>
-    <rule dir="IN" name="NIFIDOCS/nifidocs/inbound/root" pattern="*://*:*/**/nifi-docs">
-        <rewrite template="{$serviceUrl[NIFIDOCS]}/"/>
-    </rule>
-    <rule dir="IN" name="NIFIDOCS/nifidocs/inbound/path" pattern="*://*:*/**/nifi-docs/{**}">
-        <rewrite template="{$serviceUrl[NIFIDOCS]}/{**}"/>
-    </rule>
+ <rule dir="IN" name="NIFIDOCS/nifidocs/inbound/root" pattern="*://*:*/**/nifi-docs">
+ <rewrite template="{$serviceUrl[NIFIDOCS]}/"/>
+ </rule>
+ <rule dir="IN" name="NIFIDOCS/nifidocs/inbound/path" pattern="*://*:*/**/nifi-docs/{**}">
+ <rewrite template="{$serviceUrl[NIFIDOCS]}/{**}"/>
+ </rule>
 </rules>

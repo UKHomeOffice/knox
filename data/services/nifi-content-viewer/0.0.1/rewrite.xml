@@ -1,11 +1,11 @@
 <rules>
-    <rule dir="IN" name="NIFICONTENTVIEWER/nifi-content-viewer/inbound/path_query" pattern="*://*:*/**/nifi-content-viewer/{path=**}?{**}">
-        <rewrite template="{$serviceUrl[NIFICONTENTVIEWER]}/{path}?{**}"/>
-    </rule>
-    <rule dir="IN" name="NIFICONTENTVIEWER/nifi-content-viewer/inbound/path" pattern="*://*:*/**/nifi-content-viewer/{**}">
-        <rewrite template="{$serviceUrl[NIFICONTENTVIEWER]}/{**}"/>
-    </rule>
-    <rule dir="IN" name="NIFICONTENTVIEWER/nifi-content-viewer/inbound/root" pattern="*://*:*/**/nifi-content-viewer">
-        <rewrite template="{$serviceUrl[NIFICONTENTVIEWER]}/"/>
-    </rule>
+ <rule dir="IN" name="NIFICONTENTVIEWER/nifi-content-viewer/inbound/path_query" pattern="*://*:*/**/nifi-content-viewer/{path=**}?{**}">
+ <rewrite template="{$serviceUrl[NIFICONTENTVIEWER]}/{path}?{**}"/>
+ </rule>
+ <rule dir="IN" name="NIFICONTENTVIEWER/nifi-content-viewer/inbound/path" pattern="*://*:*/**/nifi-content-viewer/{**}">
+ <rewrite template="{$serviceUrl[NIFICONTENTVIEWER]}/{**}"/>
+ </rule>
+ <rule dir="IN" name="NIFICONTENTVIEWER/nifi-content-viewer/inbound/root" pattern="*://*:*/**/nifi-content-viewer">
+ <rewrite template="{$serviceUrl[NIFICONTENTVIEWER]}/"/>
+ </rule>
 </rules>

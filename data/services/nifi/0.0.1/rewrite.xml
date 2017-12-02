@@ -1,10 +1,10 @@
 <rules>
-    <rule dir="IN" name="NIFI/nifi/inbound/root" pattern="*://*:*/**/nifi">
-        <rewrite template="{$serviceUrl[NIFI]}/"/>
-    </rule>
-    <rule dir="IN" name="NIFI/nifi/inbound/path" pattern="*://*:*/**/nifi/{**}">
-        <rewrite template="{$serviceUrl[NIFI]}/{**}"/>
-    </rule>
+ <rule dir="IN" name="NIFI/nifi/inbound/root" pattern="*://*:*/**/nifi">
+ <rewrite template="{$serviceUrl[NIFI]}/"/>
+ </rule>
+ <rule dir="IN" name="NIFI/nifi/inbound/path" pattern="*://*:*/**/nifi/{**}">
+ <rewrite template="{$serviceUrl[NIFI]}/{**}"/>
+ </rule>
     <rule dir="OUT" name="NIFI/nifi/outbound/assets" pattern="assets/{**}">
         <rewrite template="{$frontend[path]}/nifi/assets/{**}"/>
     </rule>
@@ -30,37 +30,37 @@
         <rewrite template="{$frontend[path]}/nifi-docs/**"/>
     </rule>
     <rule dir="OUT" name="NIFI/nifi/outbound/nifiapi-dotdot" >
-        <rewrite template='{$frontend[path]}/nifi-api'/>
+     <rewrite template='{$frontend[path]}/nifi-api'/>
     </rule>
     <rule dir="OUT" name="NIFI/nifi/outbound/nifiimagesicon" pattern="/images/{**}">
         <rewrite template="{$frontend[path]}/nifi/images/{**}"/>
     </rule>
-     
+    
     <rule dir="OUT" name="NIFI/nifi/outbound/nifiimages" >
-        <rewrite template="{$frontend[path]}/nifi/images/"/>
+     <rewrite template="{$frontend[path]}/nifi/images/"/>
     </rule>
     <rule dir="OUT" name="NIFI/nifi/outbound/nifiviews" >
-        <rewrite template="{$frontend[path]}/nifi/views/"/>
+     <rewrite template="{$frontend[path]}/nifi/views/"/>
     </rule>
     <rule dir="OUT" name="NIFI/nifi/outbound/nifidocs-dotdot" >
-        <rewrite template="{$frontend[path]}/nifi-docs"/>
+     <rewrite template="{$frontend[path]}/nifi-docs"/>
     </rule>
     <rule dir="OUT" name="NIFI/nifi/outbound/nifi-dotdot" >
-        <rewrite template="{$frontend[path]}/nifi"/>
+     <rewrite template="{$frontend[path]}/nifi"/>
     </rule>
     <rule dir="OUT" name="NIFI/nifi/outbound/templates" pattern='"templates?'>
         <rewrite template="&#34;nifi/templates?"/>
     </rule>
-     
+    
     <filter name="NIFI/nifi/outbound/filter">
-        <content type="application/javascript">
-            <apply path="../nifi-docs" rule="NIFI/nifi/outbound/nifidocs-dotdot"/>
-            <apply path='../nifi-api' rule="NIFI/nifi/outbound/nifiapi-dotdot"/>
-            <apply path='images/' rule="NIFI/nifi/outbound/nifiimages"/>
-            <apply path='views/' rule="NIFI/nifi/outbound/nifiviews"/>
-            <apply path='"templates?' rule="NIFI/nifi/outbound/templates"/>
-            <apply path='"bulletin-board' rule="NIFI/nifi/outbound/bulletin-board"/>
-        </content>
+     <content type="application/javascript">
+     <apply path="../nifi-docs" rule="NIFI/nifi/outbound/nifidocs-dotdot"/>
+     <apply path='../nifi-api' rule="NIFI/nifi/outbound/nifiapi-dotdot"/>
+     <apply path='images/' rule="NIFI/nifi/outbound/nifiimages"/>
+     <apply path='views/' rule="NIFI/nifi/outbound/nifiviews"/>
+     <apply path='"templates?' rule="NIFI/nifi/outbound/templates"/>
+     <apply path='"bulletin-board' rule="NIFI/nifi/outbound/bulletin-board"/>
+     </content>
 
     </filter>
 

@@ -1,11 +1,11 @@
 <rules>
-    <rule dir="IN" name="PVGDPR_SERVER/pvgdpr_server/inbound/query" pattern="*://*:*/**/pvgdpr_server/{path=**}?{**}">
-        <rewrite template="{$serviceUrl[PVGDPR_SERVER]}/{path}?{**}"/>
-    </rule>
-    <rule dir="IN" name="PVGDPR_SERVER/pvgdpr_server/inbound/path" pattern="*://*:*/**/pvgdpr_server/{**}">
-        <rewrite template="{$serviceUrl[PVGDPR_SERVER]}/{**}"/>
-    </rule>
-    <rule dir="IN" name="PVGDPR_SERVER/pvgdpr_server/inbound/root" pattern="*://*:*/**/pvgdpr_server/">
-        <rewrite template="{$serviceUrl[PVGDPR_SERVER]}/"/>
-    </rule>
+ <rule dir="IN" name="PVGDPR_SERVER/pvgdpr_server/inbound/query" pattern="*://*:*/**/pvgdpr_server/{path=**}?{**}">
+ <rewrite template="{$serviceUrl[PVGDPR_SERVER]}/{path}?{**}"/>
+ </rule>
+ <rule dir="IN" name="PVGDPR_SERVER/pvgdpr_server/inbound/path" pattern="*://*:*/**/pvgdpr_server/{**}">
+ <rewrite template="{$serviceUrl[PVGDPR_SERVER]}/{**}"/>
+ </rule>
+ <rule dir="IN" name="PVGDPR_SERVER/pvgdpr_server/inbound/root" pattern="*://*:*/**/pvgdpr_server/">
+ <rewrite template="{$serviceUrl[PVGDPR_SERVER]}/"/>
+ </rule>
 </rules>
