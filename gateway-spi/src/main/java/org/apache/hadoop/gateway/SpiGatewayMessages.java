@@ -70,7 +70,4 @@ public interface SpiGatewayMessages {
 
   @Message( level = MessageLevel.WARN, text = "Possible identity spoofing attempt - impersonation parameter removed: {0}" )
   void possibleIdentitySpoofingAttempt( String impersonationParam );
-
-  @Message( level = MessageLevel.WARN, text = "Error ocurred while accessing params in query string: {0}" )
-  void unableToGetParamsFromQueryString(@StackTrace(level=MessageLevel.WARN) Exception e);
 }

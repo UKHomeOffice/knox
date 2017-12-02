@@ -157,22 +157,26 @@ private static SpiGatewayMessages log = MessagesFactory.get( SpiGatewayMessages.
       ArrayList<String> al = new ArrayList<String>();
       al.add(username);
 
-      List<String> principalParamNames = getImpersonationParamNames();
-      params = scrubOfExistingPrincipalParams(params, principalParamNames);
+    if (params == null) {
+      params = new HashMap<String, String[]>();
+    }
+    
+    ArrayList<String> al = new ArrayList<String>();
+    al.add(username);
+    String[] a = { "" };
 
-      if ("true".equals(System.getProperty(GatewayConfig.HADOOP_KERBEROS_SECURED))) {
-        params.put(DOAS_PRINCIPAL_PARAM, al);
-      } else {
-        params.put(PRINCIPAL_PARAM, al);
-      }
+    List<String> principalParamNames = getImpersonationParamNames();
+    params = scrubOfExistingPrincipalParams(params, principalParamNames);
 
-      String encoding = getCharacterEncoding();
-      if (encoding == null) {
-        encoding = Charset.defaultCharset().name();
-      }
-      q = urlEncode(params, encoding);
-    } catch (UnsupportedEncodingException e) {
-      log.unableToGetParamsFromQueryString(e);
+    if ("true".equals(System.getProperty(GatewayConfig.HADOOP_KERBEROS_SECURED))) {
+      params.put(DOAS_PRINCIPAL_PARAM, al.toArray(a));
+    } else {
+      params.put(PRINCIPAL_PARAM, al.toArray(a));
+    }
+
+    String encoding = getCharacterEncoding();
+    if (encoding == null) {
+      encoding = Charset.defaultCharset().name();
     }
 
     return q;
@@ -189,9 +193,9 @@ private static SpiGatewayMessages log = MessagesFactory.get( SpiGatewayMessages.
     return principalParamNames;
   }
 
-  private Map<String, List<String>> scrubOfExistingPrincipalParams(
-      Map<String, List<String>> params, List<String> principalParamNames) {
-    HashSet<String> remove = new HashSet<>();
+  private Map<String, String[]> scrubOfExistingPrincipalParams(
+      Map<String, String[]> params, List<String> principalParamNames) {
+    HashSet<String> remove = new HashSet<String>();
     for (String paramKey : params.keySet()) {
       for (String p : principalParamNames) {
         if (p.equalsIgnoreCase(paramKey)) {

@@ -26,7 +26,7 @@
     </parent>
     <groupId>org.apache.knox</groupId>
     <artifactId>gateway</artifactId>
-    <version>0.13.0-PVGDPR-Sandbox-001</version>
+    <version>0.12.0</version>
     <packaging>pom</packaging>
 
     <name>gateway</name>
@@ -107,7 +107,7 @@
         <gateway-name>Apache Knox</gateway-name>
         <gateway-project>knox</gateway-project>
         <gateway-artifact>knox</gateway-artifact>
-        <gateway-version>0.13.0-PVGDPR-Sandbox-001</gateway-version>
+        <gateway-version>0.12.0</gateway-version>
         <gateway-group>org.apache.knox</gateway-group>
         <groovy-version>2.4.6</groovy-version>
         <hadoop-version>2.7.3</hadoop-version>
@@ -851,7 +851,7 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.5.3</version>
+                <version>4.5.1</version>
             </dependency>
             <dependency>
                 <groupId>joda-time</groupId>

@@ -23,7 +23,7 @@
     <parent>
         <artifactId>gateway</artifactId>
         <groupId>org.apache.knox</groupId>
-        <version>0.13.0-PVGDPR-Sandbox-001</version>
+        <version>0.12.0</version>
     </parent>
 
     <artifactId>gateway-shell</artifactId>
