@@ -51,7 +51,7 @@ limitations under the License.
     <property>
         <name>java.security.auth.login.config</name>
         <value>/etc/knox/conf/krb5JAASLogin.conf</value>
-        <description>Absolute path to JASS login config file</description>
+        <description>Absolute path to JAAS login config file</description>
     </property>
 
     <property>
@@ -65,6 +65,12 @@ limitations under the License.
         <name>gateway.websocket.feature.enabled</name>
         <value>false</value>
         <description>Enable/Disable websocket feature.</description>
+    </property>
+
+    <property>
+        <name>gateway.scope.cookies.feature.enabled</name>
+        <value>false</value>
+        <description>Enable/Disable cookie scoping feature.</description>
     </property>
 
 </configuration>

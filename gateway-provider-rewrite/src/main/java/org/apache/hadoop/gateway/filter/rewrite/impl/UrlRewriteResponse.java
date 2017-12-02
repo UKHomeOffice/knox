@@ -69,7 +69,7 @@ public class UrlRewriteResponse extends GatewayResponseWrapper implements Params
   // Testing with 16K made no appreciable difference.
   private static final int STREAM_BUFFER_SIZE = 8 * 1024;
 
-  private static final Set<String> IGNORE_HEADER_NAMES = new HashSet<String>();
+  private static final Set<String> IGNORE_HEADER_NAMES = new HashSet<>();
   static {
     IGNORE_HEADER_NAMES.add( "Content-Length" );
   }
@@ -77,6 +77,7 @@ public class UrlRewriteResponse extends GatewayResponseWrapper implements Params
   private static final String REQUEST_PARAM_PREFIX = "request.";
   private static final String CLUSTER_PARAM_PREFIX = "cluster.";
   private static final String GATEWAY_PARAM_PREFIX = "gateway.";
+  public  static final String INBOUND_QUERY_PARAM_PREFIX   = "query.param.";
 
   private UrlRewriter rewriter;
   private FilterConfig config;
@@ -110,16 +111,12 @@ public class UrlRewriteResponse extends GatewayResponseWrapper implements Params
     return IGNORE_HEADER_NAMES.contains( name );
   }
 
-  private String rewriteValue(String value, String rule, boolean encode ) {
+  private String rewriteValue( String value, String rule ) {
     try {
       Template input = Parser.parseLiteral( value );
       Template output = rewriter.rewrite( this, input, UrlRewriter.Direction.OUT, rule );
       if( output != null ) {
-        if (encode) {
-          value = output.toEncodedString();
-        } else {
-          value = output.getPattern();
-        }
+        value = output.toString();
       }
     } catch( URISyntaxException e ) {
       LOG.failedToParseValueForUrlRewrite( value );
@@ -131,7 +128,7 @@ public class UrlRewriteResponse extends GatewayResponseWrapper implements Params
   @Override
   public void setHeader( String name, String value ) {
     if( !ignoreHeader( name) ) {
-      value = rewriteValue( value, pickFirstRuleWithEqualsIgnoreCasePathMatch( headersFilterConfig, name ), needsEncoding(name) );
+      value = rewriteValue( value, pickFirstRuleWithEqualsIgnoreCasePathMatch( headersFilterConfig, name ) );
       super.setHeader( name, value );
     }
   }
@@ -141,16 +138,9 @@ public class UrlRewriteResponse extends GatewayResponseWrapper implements Params
   public void addHeader( String name, String value ) {
     if( !ignoreHeader( name ) ) {
       String rule = pickFirstRuleWithEqualsIgnoreCasePathMatch( headersFilterConfig, name );
-      value = rewriteValue( value, rule, needsEncoding(name) );
+      value = rewriteValue( value, rule );
       super.addHeader( name, value );
     }
-  }
-
-  private boolean needsEncoding( String name ) {
-    if ( name.equalsIgnoreCase("Location") ) {
-      return true;
-    }
-    return false;
   }
 
   @Override
@@ -219,7 +209,9 @@ public class UrlRewriteResponse extends GatewayResponseWrapper implements Params
       return Arrays.asList( getGatewayParam( name.substring( GATEWAY_PARAM_PREFIX.length() ) ) );
     } else if ( name.startsWith( CLUSTER_PARAM_PREFIX ) ) {
       return Arrays.asList( getClusterParam( name.substring( GATEWAY_PARAM_PREFIX.length() ) ) );
-    }  else {
+    } else if ( name.startsWith( INBOUND_QUERY_PARAM_PREFIX ) ) {
+      return getInboundQueryParam(name.substring(INBOUND_QUERY_PARAM_PREFIX.length()));
+    } else {
       return Arrays.asList( config.getInitParameter( name ) );
     }
   }
@@ -270,6 +262,14 @@ public class UrlRewriteResponse extends GatewayResponseWrapper implements Params
     } else {
       return null;
     }
+  }
+
+  private List <String> getInboundQueryParam(String name ){
+     List <String> inboundHosts = null;
+     if( this.request!=null )
+       inboundHosts =
+         Arrays.asList( this.request.getParameterValues(name));
+     return inboundHosts;
   }
 
   private String getRequestParam( String name ) {

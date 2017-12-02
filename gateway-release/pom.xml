@@ -212,6 +212,10 @@
         </dependency>
         <dependency>
             <groupId>${gateway-group}</groupId>
+            <artifactId>gateway-service-health</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${gateway-group}</groupId>
             <artifactId>gateway-provider-rewrite</artifactId>
         </dependency>
         <dependency>
@@ -232,7 +236,20 @@
         </dependency>
         <dependency>
             <groupId>${gateway-group}</groupId>
+            <artifactId>gateway-provider-rewrite-func-inbound-query-param</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${gateway-group}</groupId>
             <artifactId>gateway-provider-security-picketlink</artifactId>
+<exclusions>
+
+  <exclusion>
+	<groupId>org.apache.santuario</groupId>
+	<artifactId>xmlsec</artifactId>
+  </exclusion>
+</exclusions>
+
         </dependency>
         <dependency>
             <groupId>${gateway-group}</groupId>
@@ -293,6 +310,14 @@
         <dependency>
             <groupId>${gateway-group}</groupId>
             <artifactId>gateway-provider-ha</artifactId>
+<exclusions>
+
+  <exclusion>
+	<groupId>org.apache.curator</groupId>
+	<artifactId>curator-client</artifactId>
+  </exclusion>
+</exclusions>
+
         </dependency>
 
         <dependency>
@@ -303,6 +328,14 @@
         <dependency>
             <groupId>${gateway-group}</groupId>
             <artifactId>gateway-shell</artifactId>
+<exclusions>
+
+  <exclusion>
+	<groupId>net.minidev</groupId>
+	<artifactId>json-smart</artifactId>
+  </exclusion>
+</exclusions>
+
         </dependency>
         <dependency>
             <groupId>${gateway-group}</groupId>

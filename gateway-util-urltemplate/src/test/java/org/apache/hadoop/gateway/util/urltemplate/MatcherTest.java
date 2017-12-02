@@ -308,6 +308,36 @@ public class MatcherTest {
   }
 
   @Test
+  public void testDefaultPortMatching() throws Exception {
+    Matcher<String> matcher = new Matcher<String>();
+    Template patternTemplate, inputTemplate;
+    Matcher<String>.Match match;
+
+    patternTemplate = Parser.parseTemplate( "*://*:*/{path=*}" );
+    matcher.add( patternTemplate, "test-match" );
+
+    inputTemplate = Parser.parseLiteral( "test-scheme://test-host" );
+    match = matcher.match( inputTemplate );
+    assertThat( match, nullValue() );
+    inputTemplate = Parser.parseLiteral( "test-scheme://test-host/" );
+    match = matcher.match( inputTemplate );
+    assertThat( match, nullValue() );
+    inputTemplate = Parser.parseLiteral( "test-scheme://test-host/test-path" );
+    match = matcher.match( inputTemplate );
+    assertThat( match, notNullValue() );
+
+
+    inputTemplate = Parser.parseLiteral( "https://127.0.0.1/a1/a2/b/c1/c2/d" );
+    patternTemplate = Parser.parseTemplate( "*://*:*/{pathA=**}/b/{pathC=**}/d" );
+    matcher.add( patternTemplate, "webhdfs" );
+    match = matcher.match( inputTemplate );
+    assertThat( match, notNullValue() );
+    assertThat( match.getValue(), is( "webhdfs" ) );
+    assertThat( match.getParams().resolve( "pathA" ), hasItems( "a1", "a2" ) );
+    assertThat( match.getParams().resolve( "pathC" ), hasItems( "c1", "c2" ) );
+  }
+
+  @Test
   public void testTopLevelPathGlobMatch() throws Exception {
     Matcher<String> matcher;
     Template patternTemplate, inputTemplate;
@@ -973,56 +1003,6 @@ public class MatcherTest {
     assertThat( expandedStr, containsString( "overwrite=true" ) );
     assertThat( expandedStr, containsString( "createparent=true" ) );
     assertThat( expandedStr, containsString( "&" ) );
-  }
-
-  @Test
-  public void testEncodedUrlMatching() throws Exception {
-    Template template;
-    Template input;
-    Matcher<String> matcher;
-    Matcher<?>.Match match;
-
-    matcher = new Matcher<String>();
-
-    template = Parser.parseTemplate( "*://*:*/example" );
-    matcher.add( template, "test-example" );
-
-    template = Parser.parseTemplate( "*://*:*/|" );
-    matcher.add( template, "test-pipe-in-path" );
-
-    template = Parser.parseTemplate( "*://*:*/test-path?{|=*}" );
-    matcher.add( template, "test-pipe-in-query-param-name" );
-
-    template = Parser.parseTemplate( "*://*:*/test-path?{test-param-name=*}" );
-    matcher.add( template, "test-pipe-in-query-param-value" );
-
-    template = Parser.parseTemplate( "*://*:*/test-path#|" );
-    matcher.add( template, "test-pipe-in-fragment" );
-
-    input = Parser.parseLiteral( "test-scheme://test-host:42/example" );
-    match = matcher.match( input );
-    assertThat( match, notNullValue() );
-    assertThat( (String)match.getValue(), is( "test-example" ) );
-
-    input = Parser.parseLiteral( "test-scheme://test-host:42/%7C" );
-    match = matcher.match( input );
-    assertThat( match, notNullValue() );
-    assertThat( (String)match.getValue(), is( "test-pipe-in-path" ) );
-
-    input = Parser.parseLiteral( "test-scheme://test-host:42/test-path?%7C=test-param-value" );
-    match = matcher.match( input );
-    assertThat( match, notNullValue() );
-    assertThat( (String)match.getValue(), is( "test-pipe-in-query-param-name" ) );
-
-    input = Parser.parseLiteral( "test-scheme://test-host:42/test-path?test-param-name=%7C" );
-    match = matcher.match( input );
-    assertThat( match, notNullValue() );
-    assertThat( (String)match.getValue(), is( "test-pipe-in-query-param-value" ) );
-
-    input = Parser.parseLiteral( "test-scheme://test-host:42/test-path#%7C" );
-    match = matcher.match( input );
-    assertThat( match, notNullValue() );
-    assertThat( (String)match.getValue(), is( "test-pipe-in-fragment" ) );
   }
 
 }

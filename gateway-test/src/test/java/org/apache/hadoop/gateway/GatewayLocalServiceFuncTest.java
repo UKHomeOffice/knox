@@ -43,6 +43,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +60,7 @@ import static org.junit.Assert.assertThat;
 public class GatewayLocalServiceFuncTest {
 
   private static Class RESOURCE_BASE_CLASS = GatewayLocalServiceFuncTest.class;
-  private static Logger LOG = LoggerFactory.getLogger( GatewayFuncTestDriver.class );
+  private static Logger LOG = LoggerFactory.getLogger( GatewayTestDriver.class );
 
   public static Enumeration<Appender> appenders;
   public static GatewayConfig config;
@@ -89,9 +91,14 @@ public class GatewayLocalServiceFuncTest {
   }
 
   public static void setupLdap() throws Exception {
-    URL usersUrl = getResourceUrl( "users.ldif" );
+    String basedir = System.getProperty("basedir");
+    if (basedir == null) {
+      basedir = new File(".").getCanonicalPath();
+    }
+    Path path = FileSystems.getDefault().getPath(basedir, "/src/test/resources/users.ldif");
+
     ldapTransport = new TcpTransport( 0 );
-    ldap = new SimpleLdapDirectoryServer( "dc=hadoop,dc=apache,dc=org", new File( usersUrl.toURI() ), ldapTransport );
+    ldap = new SimpleLdapDirectoryServer( "dc=hadoop,dc=apache,dc=org", path.toFile(), ldapTransport );
     ldap.start();
     LOG.info( "LDAP port = " + ldapTransport.getAcceptor().getLocalAddress().getPort() );
   }
@@ -118,7 +125,7 @@ public class GatewayLocalServiceFuncTest {
     stream.close();
 
     DefaultGatewayServices srvcs = new DefaultGatewayServices();
-    Map<String,String> options = new HashMap<String,String>();
+    Map<String,String> options = new HashMap<>();
     options.put( "persist-master", "false" );
     options.put( "master", "password" );
     try {
@@ -181,7 +188,7 @@ public class GatewayLocalServiceFuncTest {
 
     String username = "guest";
     String password = "guest-password";
-    String serviceUrl =  clusterUrl + "/test-jersey-service/test-jersey-resource-path";
+    String serviceUrl = clusterUrl + "/test-jersey-service/test-jersey-resource-path";
     given()
         //.log().all()
         .auth().preemptive().basic( username, password )

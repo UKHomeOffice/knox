@@ -290,13 +290,13 @@ public abstract class HtmlFilterReaderBase extends Reader implements UrlRewriteF
         prefix = name.substring( 0, colon );
         local = ( colon + 1 < name.length() ? name.substring( colon + 1 ) : "" );
       }
-      String namespace = ( prefix == null ) ? null : getNamespace( prefix );
+      String namespace = getNamespace( prefix );
       return new QName( namespace, local, prefix );
     }
 
     private Map<String,String> getNamespaces() {
       if( namespaces == null ) {
-        namespaces = new HashMap<String,String>();
+        namespaces = new HashMap<>();
         parseNamespaces();
       }
       return namespaces;

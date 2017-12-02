@@ -33,6 +33,8 @@ import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +65,7 @@ import com.mycila.xmltool.XMLDoc;
 import com.mycila.xmltool.XMLTag;
 
 /**
- * Functional test to verify : looking up ldap groups from directory 
+ * Functional test to verify : looking up ldap groups from directory
  * and using them in acl authorization checks
  *
  */
@@ -103,9 +105,14 @@ public class GatewayLdapDynamicGroupFuncTest {
   }
 
   public static int setupLdap() throws Exception {
-    URL usersUrl = getResourceUrl( "users.ldif" );
+    String basedir = System.getProperty("basedir");
+    if (basedir == null) {
+      basedir = new File(".").getCanonicalPath();
+    }
+    Path path = FileSystems.getDefault().getPath(basedir, "/src/test/resources/users-dynamic.ldif");
+
     ldapTransport = new TcpTransport( 0 );
-    ldap = new SimpleLdapDirectoryServer( "dc=hadoop,dc=apache,dc=org", new File( usersUrl.toURI() ), ldapTransport );
+    ldap = new SimpleLdapDirectoryServer( "dc=hadoop,dc=apache,dc=org", path.toFile(), ldapTransport );
     ldap.start();
     LOG.info( "LDAP port = " + ldapTransport.getAcceptor().getLocalAddress().getPort() );
     return ldapTransport.getAcceptor().getLocalAddress().getPort();
@@ -128,7 +135,7 @@ public class GatewayLdapDynamicGroupFuncTest {
     deployDir.mkdirs();
 
     DefaultGatewayServices srvcs = new DefaultGatewayServices();
-    Map<String,String> options = new HashMap<String,String>();
+    Map<String,String> options = new HashMap<>();
     options.put( "persist-master", "false" );
     options.put( "master", "password" );
     try {
@@ -165,7 +172,7 @@ public class GatewayLdapDynamicGroupFuncTest {
 
     gatewayUrl = "http://localhost:" + gateway.getAddresses()[0].getPort() + "/" + config.getGatewayPath();
     clusterUrl = gatewayUrl + "/testdg-cluster";
-    serviceUrl =  clusterUrl + "/test-service-path/test-service-resource";
+    serviceUrl = clusterUrl + "/test-service-path/test-service-resource";
 
     ///*
     GatewayServices services = GatewayServer.getGatewayServices();
@@ -290,7 +297,7 @@ public class GatewayLdapDynamicGroupFuncTest {
     LOG_ENTER();
     String username = "bob";
     String password = "bob-password";
-    String serviceUrl =  clusterUrl + "/test-service-path/test-service-resource";
+    String serviceUrl = clusterUrl + "/test-service-path/test-service-resource";
     given()
         //.log().all()
         .auth().preemptive().basic( username, password )
@@ -308,7 +315,7 @@ public class GatewayLdapDynamicGroupFuncTest {
     LOG_ENTER();
     String username = "guest";
     String password = "guest-password";
-    String serviceUrl =  clusterUrl + "/test-service-path/test-service-resource";
+    String serviceUrl = clusterUrl + "/test-service-path/test-service-resource";
     given()
         //.log().all()
         .auth().preemptive().basic( username, password )

@@ -25,6 +25,8 @@ import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,9 +103,14 @@ public class GatewayAdminTopologyFuncTest {
   }
 
   public static void setupLdap() throws Exception {
-    URL usersUrl = getResourceUrl( "users.ldif" );
+    String basedir = System.getProperty("basedir");
+    if (basedir == null) {
+      basedir = new File(".").getCanonicalPath();
+    }
+    Path path = FileSystems.getDefault().getPath(basedir, "/src/test/resources/users.ldif");
+
     ldapTransport = new TcpTransport( 0 );
-    ldap = new SimpleLdapDirectoryServer( "dc=hadoop,dc=apache,dc=org", new File( usersUrl.toURI() ), ldapTransport );
+    ldap = new SimpleLdapDirectoryServer( "dc=hadoop,dc=apache,dc=org", path.toFile(), ldapTransport );
     ldap.start();
     LOG.info( "LDAP port = " + ldapTransport.getAcceptor().getLocalAddress().getPort() );
   }
@@ -134,7 +141,7 @@ public class GatewayAdminTopologyFuncTest {
     stream.close();
 
     DefaultGatewayServices srvcs = new DefaultGatewayServices();
-    Map<String,String> options = new HashMap<String,String>();
+    Map<String,String> options = new HashMap<>();
     options.put( "persist-master", "false" );
     options.put( "master", "password" );
 
@@ -273,7 +280,7 @@ public class GatewayAdminTopologyFuncTest {
 
     String username = "admin";
     String password = "admin-password";
-    String serviceUrl =  clusterUrl + "/api/v1/topologies";
+    String serviceUrl = clusterUrl + "/api/v1/topologies";
     String href1 = given()
         //.log().all()
         .auth().preemptive().basic(username, password)
@@ -330,7 +337,7 @@ public class GatewayAdminTopologyFuncTest {
 
     String username = "admin";
     String password = "admin-password";
-    String serviceUrl =  clusterUrl + "/api/v1/topologies";
+    String serviceUrl = clusterUrl + "/api/v1/topologies";
     String hrefJson = given()
         //.log().all()
         .auth().preemptive().basic(username, password)
@@ -392,7 +399,7 @@ public class GatewayAdminTopologyFuncTest {
 
     String adminUser = "admin";
     String adminPass = "admin-password";
-    String url =  clusterUrl + "/api/v1/topologies";
+    String url = clusterUrl + "/api/v1/topologies";
 
     given()
         //.log().all()
@@ -420,7 +427,7 @@ public class GatewayAdminTopologyFuncTest {
 
     String guestUser = "guest";
     String guestPass = "guest-password";
-    String url =  clusterUrl + "/api/v1/topologies";
+    String url = clusterUrl + "/api/v1/topologies";
 
     given()
         //.log().all()
@@ -557,7 +564,7 @@ public class GatewayAdminTopologyFuncTest {
 
     String username = "admin";
     String password = "admin-password";
-    String url =  clusterUrl + "/api/v1/topologies/" + test.getName();
+    String url = clusterUrl + "/api/v1/topologies/" + test.getName();
 
     GatewayServices gs = GatewayServer.getGatewayServices();
 
@@ -598,7 +605,7 @@ public class GatewayAdminTopologyFuncTest {
 
     String username = "admin";
     String password = "admin-password";
-    String url =  clusterUrl + "/api/v1/topologies/test-put";
+    String url = clusterUrl + "/api/v1/topologies/test-put";
 
     String JsonPut =
         given()
@@ -669,7 +676,7 @@ public class GatewayAdminTopologyFuncTest {
 
     String username = "admin";
     String password = "admin-password";
-    String url =  clusterUrl + "/api/v1/topologies";
+    String url = clusterUrl + "/api/v1/topologies";
 
 //    X-Forward header values
     String port = String.valueOf(777);
@@ -784,7 +791,7 @@ public class GatewayAdminTopologyFuncTest {
     LOG_ENTER();
     String username = "admin";
     String password = "admin-password";
-    String url =  clusterUrl + "/api/v1/topologies";
+    String url = clusterUrl + "/api/v1/topologies";
 
 //     Case 1: Normal Request (No Change in gateway.path). Ensure HTTP OK resp + valid URL.
     given()

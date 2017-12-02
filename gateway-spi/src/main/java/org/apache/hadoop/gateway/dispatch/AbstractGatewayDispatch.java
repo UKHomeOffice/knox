@@ -36,17 +36,19 @@ import java.util.Set;
 public abstract class AbstractGatewayDispatch implements Dispatch {
 
   private static final int STREAM_COPY_BUFFER_SIZE = 4096;
-  private static Set<String> REQUEST_EXCLUDE_HEADERS;
-
+  private static final Set<String> REQUEST_EXCLUDE_HEADERS = new HashSet<>();
+  
+  static {
+      REQUEST_EXCLUDE_HEADERS.add("Host");
+      REQUEST_EXCLUDE_HEADERS.add("Authorization");
+      REQUEST_EXCLUDE_HEADERS.add("Content-Length");
+      REQUEST_EXCLUDE_HEADERS.add("Transfer-Encoding");
+  }
+  
   protected  HttpClient client;
 
   @Override
   public void init() {
-    REQUEST_EXCLUDE_HEADERS = new HashSet<>();
-    REQUEST_EXCLUDE_HEADERS.add("Host");
-    REQUEST_EXCLUDE_HEADERS.add("Authorization");
-    REQUEST_EXCLUDE_HEADERS.add("Content-Length");
-    REQUEST_EXCLUDE_HEADERS.add("Transfer-Encoding");
   }
 
   protected void writeResponse(HttpServletRequest request, HttpServletResponse response, InputStream stream )
@@ -129,6 +131,14 @@ public abstract class AbstractGatewayDispatch implements Dispatch {
 
   public Set<String> getOutboundRequestExcludeHeaders() {
     return REQUEST_EXCLUDE_HEADERS;
+  }
+
+  protected void encodeUnwiseCharacters(StringBuffer str) {
+    int pipe = str.indexOf("|");
+    while (pipe > -1) {
+      str.replace(pipe, pipe+1, "%7C");
+      pipe = str.indexOf("|", pipe+1);
+    }
   }
 
 }

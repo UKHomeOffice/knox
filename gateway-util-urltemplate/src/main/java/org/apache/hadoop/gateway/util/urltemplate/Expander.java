@@ -34,7 +34,7 @@ public class Expander {
   private static Params EMPTY_PARAMS = new EmptyParams();
 
   public static URI expand( Template template, Params params, Evaluator evaluator ) throws URISyntaxException {
-    return new Expander().expandToUri( template, params, evaluator );
+    return Expander.expandToUri( template, params, evaluator );
   }
 
   public static URI expandToUri( Template template, Params params, Evaluator evaluator ) throws URISyntaxException {
@@ -51,7 +51,7 @@ public class Expander {
     if( params == null ) {
       params = EMPTY_PARAMS;
     }
-    Set<String> names = new HashSet<String>( params.getNames() );
+    Set<String> names = new HashSet<>( params.getNames() );
     expandScheme( template, names, params, evaluator, builder );
     expandAuthority( template, names, params, evaluator, builder );
     expandPath( template, names, params, evaluator, builder );
@@ -307,12 +307,12 @@ public class Expander {
   private static class EmptyParams implements Params {
     @Override
     public Set<String> getNames() {
-      return Collections.EMPTY_SET;
+      return Collections.emptySet();
     }
 
     @Override
     public List<String> resolve( String name ) {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
 
   }

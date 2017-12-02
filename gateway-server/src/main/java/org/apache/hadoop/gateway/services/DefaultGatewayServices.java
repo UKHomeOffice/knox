@@ -47,7 +47,7 @@ public class DefaultGatewayServices implements GatewayServices {
 
   private static GatewayMessages log = MessagesFactory.get( GatewayMessages.class );
 
-  private Map<String,Service> services = new HashMap<String, Service>();
+  private Map<String,Service> services = new HashMap<>();
   private DefaultMasterService ms = null;
   private DefaultKeystoreService ks = null;
 
@@ -219,5 +219,6 @@ public class DefaultGatewayServices implements GatewayServices {
   public void finalizeContribution(DeploymentContext context) {
     // Tell the provider the location of the descriptor.
     context.getWebAppDescriptor().createListener().listenerClass( GatewayServicesContextListener.class.getName() );
+    context.getWebAppDescriptor().createListener().listenerClass(GatewayMetricsServletContextListener.class.getName());
   }
 }

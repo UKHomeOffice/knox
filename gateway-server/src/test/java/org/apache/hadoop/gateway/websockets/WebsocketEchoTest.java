@@ -174,6 +174,26 @@ public class WebsocketEchoTest {
   }
 
   /**
+   * Test websocket rewrite rules proxying through gateway.
+   *
+   * @throws Exception
+   */
+  @Test
+  public void testGatewayRewriteEcho() throws Exception {
+    WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+
+    WebsocketClient client = new WebsocketClient();
+    Session session = container.connectToServer(client,
+            new URI(serverUri.toString() + "gateway/websocket/123foo456bar/channels"));
+
+    session.getBasicRemote().sendText("Echo");
+    client.messageQueue.awaitMessages(1, 1000, TimeUnit.MILLISECONDS);
+
+    assertThat(client.messageQueue.get(0), is("Echo"));
+
+  }
+
+  /**
    * Start Mock Websocket server that acts as backend.
    * 
    * @throws Exception
@@ -262,7 +282,7 @@ public class WebsocketEchoTest {
 
     final TestTopologyListener topoListener = new TestTopologyListener();
 
-    final Map<String, String> options = new HashMap<String, String>();
+    final Map<String, String> options = new HashMap<>();
     options.put("persist-master", "false");
     options.put("master", "password");
 

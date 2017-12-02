@@ -90,7 +90,7 @@ public class DefaultDispatchTest {
       dispatch.executeRequest( outboundRequest, inboundRequest, outboundResponse );
       fail( "Should have thrown IOException" );
     } catch( IOException e ) {
-      assertThat( e.getMessage(), not( containsString( "unreachable-host" ) ) );
+      assertThat( e.getMessage(), ( containsString( "unreachable-host" ) ) );
       assertThat( e, not( instanceOf( UnknownHostException.class ) ) ) ;
       assertThat( "Message needs meaningful content.", e.getMessage().trim().length(), greaterThan( 12 ) );
     }

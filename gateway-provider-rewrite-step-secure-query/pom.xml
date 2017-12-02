@@ -41,6 +41,17 @@
         <dependency>
             <groupId>${gateway-group}</groupId>
             <artifactId>gateway-util-common</artifactId>
+<exclusions>
+  <exclusion>
+	<groupId>org.apache.directory.server</groupId>
+	<artifactId>apacheds-i18n</artifactId>
+  </exclusion>
+  <exclusion>
+	<groupId></groupId>
+	<artifactId></artifactId>
+  </exclusion>
+ </exclusions> 
+
         </dependency>
         <dependency>
             <groupId>${gateway-group}</groupId>

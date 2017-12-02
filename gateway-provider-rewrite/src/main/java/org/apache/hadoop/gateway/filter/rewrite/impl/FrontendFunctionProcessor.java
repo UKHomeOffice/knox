@@ -49,7 +49,7 @@ public class FrontendFunctionProcessor implements UrlRewriteFunctionProcessor<Fr
       throw new IllegalArgumentException( "environment==null" );
     }
     URI frontend = environment.getAttribute( FrontendFunctionDescriptor.FRONTEND_URI_ATTRIBUTE );
-    resolvers = new HashMap<String,UrlRewriteResolver>();
+    resolvers = new HashMap<>();
     if( frontend == null ) {
       resolvers.put( "url", new ParamResolver( "gateway.url" ) );
       resolvers.put( "addr", new ParamResolver( "gateway.addr" ) );
@@ -92,7 +92,7 @@ public class FrontendFunctionProcessor implements UrlRewriteFunctionProcessor<Fr
     return results;
   }
 
-  private class ParamResolver implements UrlRewriteResolver {
+  private static class ParamResolver implements UrlRewriteResolver {
 
     private String paramName;
 
@@ -107,7 +107,7 @@ public class FrontendFunctionProcessor implements UrlRewriteFunctionProcessor<Fr
 
   }
 
-  private class FixedResolver implements UrlRewriteResolver {
+  private static class FixedResolver implements UrlRewriteResolver {
 
     private List<String> fixedValues;
 

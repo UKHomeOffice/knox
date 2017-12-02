@@ -72,7 +72,7 @@ public class ShiroSubjectIdentityAdapter implements Filter {
     SecurityUtils.getSubject().execute(callableChain);
   }
   
-  private class CallableChain implements Callable<Void> {
+  private static class CallableChain implements Callable<Void> {
     private FilterChain chain = null;
     ServletRequest request = null;
     ServletResponse response = null;
@@ -93,9 +93,14 @@ public class ShiroSubjectIdentityAdapter implements Filter {
         }
       };
       Subject shiroSubject = SecurityUtils.getSubject();
+
+      if (shiroSubject == null || shiroSubject.getPrincipal() == null) {
+        throw new IllegalStateException("Unable to determine authenticated user from Shiro, please check that your Knox Shiro configuration is correct");
+      }
+
       final String principal = (String) shiroSubject.getPrincipal().toString();
       HashSet emptySet = new HashSet();
-      Set<Principal> principals = new HashSet<Principal>();
+      Set<Principal> principals = new HashSet<>();
       Principal p = new PrimaryPrincipal(principal);
       principals.add(p);
       auditService.getContext().setUsername( principal ); //KM: Audit Fix
@@ -108,11 +113,11 @@ public class ShiroSubjectIdentityAdapter implements Filter {
         userGroups = (Set<String>)SecurityUtils.getSubject().getSession().getAttribute(SUBJECT_USER_GROUPS);
       } else { // KnoxLdapRealm case
         if(  shiroSubject.getPrincipal() instanceof String ) { 
-           userGroups = new HashSet<String>(shiroSubject.getPrincipals().asSet());
+           userGroups = new HashSet<>(shiroSubject.getPrincipals().asSet());
            userGroups.remove(principal);
         } else { // KnoxPamRealm case
-           Set<Principal> shiroPrincipals = new HashSet<Principal>(shiroSubject.getPrincipals().asSet());
-           userGroups = new HashSet<String>(); // Here we are creating a new UserGroup
+           Set<Principal> shiroPrincipals = new HashSet<>(shiroSubject.getPrincipals().asSet());
+           userGroups = new HashSet<>(); // Here we are creating a new UserGroup
                                                // so we don't need to remove a Principal
                                                // In the case of LDAP the userGroup may have already Principal
                                                // added to the list of groups, so it is not needed.

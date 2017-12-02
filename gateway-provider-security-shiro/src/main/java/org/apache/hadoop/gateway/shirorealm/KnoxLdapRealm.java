@@ -148,7 +148,7 @@ public class KnoxLdapRealm extends JndiLdapRealm {
 
     private static final String POSIX_GROUP = "posixGroup";
 
-    private static final String HASHING_ALGORITHM = "SHA-1";
+    private static final String HASHING_ALGORITHM = "SHA-256";
 
     static {
           SUBTREE_SCOPE.setSearchScope(SearchControls.SUBTREE_SCOPE);
@@ -515,7 +515,7 @@ public class KnoxLdapRealm extends JndiLdapRealm {
     }
 
     private Map<String, List<String>> parsePermissionByRoleString(String permissionsByRoleStr) {
-      Map<String,List<String>> perms = new HashMap<String, List<String>>();
+      Map<String,List<String>> perms = new HashMap<>();
    
       // split by semicolon ; then by eq = then by  comma ,
       StringTokenizer stSem = new StringTokenizer(permissionsByRoleStr, ";");

@@ -92,7 +92,7 @@ public class DeploymentFactoryFuncTest {
 
     addStacksDir(config, targetDir);
     DefaultGatewayServices srvcs = new DefaultGatewayServices();
-    Map<String,String> options = new HashMap<String,String>();
+    Map<String,String> options = new HashMap<>();
     options.put("persist-master", "false");
     options.put("master", "password");
     try {
@@ -156,7 +156,7 @@ public class DeploymentFactoryFuncTest {
     addStacksDir(config, targetDir);
 
     DefaultGatewayServices srvcs = new DefaultGatewayServices();
-    Map<String,String> options = new HashMap<String,String>();
+    Map<String,String> options = new HashMap<>();
     options.put("persist-master", "false");
     options.put("master", "password");
     try {
@@ -215,7 +215,7 @@ public class DeploymentFactoryFuncTest {
     addStacksDir(config, targetDir);
 
     DefaultGatewayServices srvcs = new DefaultGatewayServices();
-    Map<String,String> options = new HashMap<String,String>();
+    Map<String,String> options = new HashMap<>();
     options.put("persist-master", "false");
     options.put("master", "password");
     try {
@@ -336,7 +336,7 @@ public class DeploymentFactoryFuncTest {
       deployDir.mkdirs();
 
       DefaultGatewayServices srvcs = new DefaultGatewayServices();
-      Map<String, String> options = new HashMap<String, String>();
+      Map<String, String> options = new HashMap<>();
       options.put("persist-master", "false");
       options.put("master", "password");
       try {
@@ -397,8 +397,11 @@ public class DeploymentFactoryFuncTest {
       assertThat(web, hasXPath("/web-app/servlet-mapping/url-pattern", equalTo("/*")));
       //testing the order of listener classes generated
       assertThat(web, hasXPath("/web-app/listener[2]/listener-class", equalTo("org.apache.hadoop.gateway.services.GatewayServicesContextListener")));
-      assertThat(web, hasXPath("/web-app/listener[3]/listener-class", equalTo("org.apache.hadoop.gateway.ha.provider.HaServletContextListener")));
-      assertThat(web, hasXPath("/web-app/listener[4]/listener-class", equalTo("org.apache.hadoop.gateway.filter.rewrite.api.UrlRewriteServletContextListener")));
+      assertThat(web, hasXPath("/web-app/listener[3]/listener-class", equalTo("org.apache.hadoop.gateway.services.GatewayMetricsServletContextListener")));
+      assertThat(web, hasXPath("/web-app/listener[4]/listener-class", equalTo("org.apache.hadoop.gateway.ha.provider" +
+          ".HaServletContextListener")));
+     assertThat(web, hasXPath("/web-app/listener[5]/listener-class", equalTo("org.apache.hadoop.gateway.filter" +
+         ".rewrite.api.UrlRewriteServletContextListener")));
    }
 
   @Test( timeout = LONG_TIMEOUT )
@@ -414,7 +417,7 @@ public class DeploymentFactoryFuncTest {
     addStacksDir(config, targetDir);
 
     DefaultGatewayServices srvcs = new DefaultGatewayServices();
-    Map<String, String> options = new HashMap<String, String>();
+    Map<String, String> options = new HashMap<>();
     options.put("persist-master", "false");
     options.put("master", "password");
     try {
@@ -509,7 +512,7 @@ public class DeploymentFactoryFuncTest {
     ((GatewayTestConfig)config).setGatewayApplicationsDir(appsDir.getAbsolutePath());
 
     DefaultGatewayServices srvcs = new DefaultGatewayServices();
-    Map<String, String> options = new HashMap<String, String>();
+    Map<String, String> options = new HashMap<>();
     options.put("persist-master", "false");
     options.put("master", "password");
     try {
@@ -568,7 +571,7 @@ public class DeploymentFactoryFuncTest {
     ((GatewayTestConfig)config).setGatewayApplicationsDir(appsDir.getAbsolutePath());
 
     DefaultGatewayServices srvcs = new DefaultGatewayServices();
-    Map<String, String> options = new HashMap<String, String>();
+    Map<String, String> options = new HashMap<>();
     options.put("persist-master", "false");
     options.put("master", "password");
     try {
