@@ -1,0 +1,11 @@
+<rules>
+    <rule dir="IN" name="PVGDPR_GRAPH/pvgdpr_graph/inbound/query" pattern="*://*:*/**/pvgdpr_graph/{path=**}?{**}">
+        <rewrite template="{$serviceUrl[PVGDPR_GRAPH]}/{path}?{**}"/>
+    </rule>
+    <rule dir="IN" name="PVGDPR_GRAPH/pvgdpr_graph/inbound/path" pattern="*://*:*/**/pvgdpr_graph/{**}">
+        <rewrite template="{$serviceUrl[PVGDPR_GRAPH]}/{**}"/>
+    </rule>
+    <rule dir="IN" name="PVGDPR_GRAPH/pvgdpr_graph/inbound/root" pattern="*://*:*/**/pvgdpr_graph/">
+        <rewrite template="{$serviceUrl[PVGDPR_GRAPH]}/"/>
+    </rule>
+</rules>
