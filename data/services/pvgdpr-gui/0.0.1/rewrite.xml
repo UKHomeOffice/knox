@@ -1,0 +1,57 @@
+<rules>
+ <rule dir="IN" name="PVGDPR_GUI/pvgdpr_gui/inbound/static_media_in" pattern="*://*:*/**/pvgdpr_gui/static/css/pvgdpr/static/media/{path=**}">
+ <rewrite template="{$serviceUrl[PVGDPR_GUI]}/static/media/{path}"/>
+ </rule>
+ <rule dir="IN" name="PVGDPR_GUI/pvgdpr_gui/inbound/query" pattern="*://*:*/**/pvgdpr_gui/{path=**}?{**}">
+ <rewrite template="{$serviceUrl[PVGDPR_GUI]}/{path}?{**}"/>
+ </rule>
+ <rule dir="IN" name="PVGDPR_GUI/pvgdpr_gui/inbound/path" pattern="*://*:*/**/pvgdpr_gui/{**}">
+ <rewrite template="{$serviceUrl[PVGDPR_GUI]}/{**}"/>
+ </rule>
+ <rule dir="IN" name="PVGDPR_GUI/pvgdpr_gui/inbound/root" pattern="*://*:*/**/pvgdpr_gui/">
+ <rewrite template="{$serviceUrl[PVGDPR_GUI]}/"/>
+ </rule>
+ <rule dir="IN" name="PVGDPR_GUI/pvgdpr_gui/inbound/root_noslash" pattern="*://*:*/**/pvgdpr_gui">
+ <rewrite template="{$serviceUrl[PVGDPR_GUI]}"/>
+ </rule>
+
+    <rule dir="OUT" name="PVGDPR_GUI/pvgdpr_gui/outbound/all" pattern="pvgdpr/{**}">
+        <rewrite template="{$frontend[path]}/pvgdpr_gui/{**}"/>
+    </rule>
+
+
+    <rule dir="OUT" name="PVGDPR_GUI/pvgdpr_gui/outbound/comply_png">
+        <rewrite template="pvgdpr_gui/comply.png"/>
+    </rule>
+    <rule dir="OUT" name="PVGDPR_GUI/pvgdpr_gui/outbound/track_png">
+        <rewrite template="pvgdpr_gui/track.png"/>
+    </rule>
+    <rule dir="OUT" name="PVGDPR_GUI/pvgdpr_gui/outbound/extract_png">
+        <rewrite template="pvgdpr_gui/extract.png"/>
+    </rule>
+    <rule dir="OUT" name="PVGDPR_GUI/pvgdpr_gui/outbound/nifi">
+        <rewrite template="{$frontend[path]}/nifi"/>
+    </rule>
+    <rule dir="OUT" name="PVGDPR_GUI/pvgdpr_gui/outbound/service_worker_js">
+        <rewrite template="pvgdpr_gui/service-worker.js"/>
+    </rule>
+
+    <rule dir="OUT" name="PVGDPR_GUI/pvgdpr_gui/outbound/search_svg" >
+        <rewrite template="pvgdpr_gui/static/media/search.f14d7524.svg"/>
+    </rule>
+
+
+    <filter name="PVGDPR_GUI/pvgdpr_gui/outbound/filter">
+        <content type="application/javascript">
+        <apply path='pvgdpr/track.png' rule="PVGDPR_GUI/pvgdpr_gui/outbound/track_png"/>
+        <apply path='pvgdpr/comply.png' rule="PVGDPR_GUI/pvgdpr_gui/outbound/comply_png"/>
+        <apply path='pvgdpr/extract.png' rule="PVGDPR_GUI/pvgdpr_gui/outbound/extract_png"/>
+        <apply path='/nifi' rule="PVGDPR_GUI/pvgdpr_gui/outbound/nifi"/>
+        <apply path='pvgdpr/service-worker.js' rule="PVGDPR_GUI/pvgdpr_gui/outbound/service_worker_js"/>
+        </content>
+        <content type="text/css">
+        <apply path='pvgdpr/static/media/search.f14d7524.svg' rule="PVGDPR_GUI/pvgdpr_gui/outbound/search_svg"/>
+        </content>
+          
+    </filter>
+</rules>
