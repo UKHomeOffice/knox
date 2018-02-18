@@ -107,11 +107,7 @@
         <gateway-name>Apache Knox</gateway-name>
         <gateway-project>knox</gateway-project>
         <gateway-artifact>knox</gateway-artifact>
-<<<<<<< HEAD
-        <gateway-version>0.12.0</gateway-version>
-=======
         <gateway-version>0.13.0</gateway-version>
->>>>>>> origin/v0.13.0
         <gateway-group>org.apache.knox</gateway-group>
         <groovy-version>2.4.6</groovy-version>
         <hadoop-version>2.7.3</hadoop-version>
