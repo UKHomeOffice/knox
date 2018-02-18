@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=0.12.0
+VERSION=0.13.0
 
 DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 
