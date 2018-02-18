@@ -91,7 +91,7 @@
         </provider>
 
         <provider>                 
-          <role>PontusJWT</role> 
+          <role>pontus_jwt</role> 
           <name>process</name>
           <enabled>true</enabled>
           <param><name>keycloak.config.file</name><value>/opt/pontus/pontus-knox/current/conf/keycloak.json</value></param>
