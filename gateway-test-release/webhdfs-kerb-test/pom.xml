@@ -22,20 +22,12 @@
     <parent>
         <artifactId>gateway-test-release</artifactId>
         <groupId>org.apache.knox</groupId>
-<<<<<<< HEAD
-        <version>0.13.0</version>
-=======
         <version>1.0.0</version>
->>>>>>> upstream/v1.0.0
     </parent>
 
     <artifactId>webhdfs-kerb-test</artifactId>
     <name>webhdfs-kerb-test</name>
-<<<<<<< HEAD
-    <version>0.13.0</version>
-=======
     <version>1.0.0</version>
->>>>>>> upstream/v1.0.0
     <description>Tests for WebHDFS integration with Knox and Kerberos enabled</description>
     <build>
         <plugins>
