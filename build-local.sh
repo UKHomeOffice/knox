@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=1.0.0
+VERSION=0.13.0
 
 DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 
@@ -17,9 +17,7 @@ cd $DIR
 if [[ ! -f $ZIP_BUILD ]]; then
   mvn -Drat.numUnapprovedLicenses=100 -DskipTests -Ppackage install
 fi
-#tar cvzf $DIR/conf.tar.gz data/services/pvgdpr-gui/0.0.1/rewrite.xml data/services/pvgdpr-gui/0.0.1/service.xml data/services/pvgdpr-graph/0.0.1/rewrite.xml data/services/pvgdpr-graph/0.0.1/service.xml data/services/pvgdpr-server/0.0.1/rewrite.xml data/services/pvgdpr-server/0.0.1/service.xml data/services/nifi/0.0.1/rewrite.xml data/services/nifi/0.0.1/service.xml data/services/nifiapi/0.0.1/rewrite.xml data/services/nifiapi/0.0.1/service.xml data/services/nifi-content-viewer/0.0.1/rewrite.xml data/services/nifi-content-viewer/0.0.1/service.xml data/services/nifi-docs/0.0.1/rewrite.xml data/services/nifi-docs/0.0.1/service.xml conf/topologies/sandbox.xml
-
-tar cvzf $DIR/conf.tar.gz conf/gateway-site.xml conf/topologies/sandbox.xml data/services/pv* data/services/nifi*
+tar cvzf $DIR/conf.tar.gz data/services/pvgdpr-gui/0.0.1/rewrite.xml data/services/pvgdpr-gui/0.0.1/service.xml data/services/pvgdpr-graph/0.0.1/rewrite.xml data/services/pvgdpr-graph/0.0.1/service.xml data/services/pvgdpr-server/0.0.1/rewrite.xml data/services/pvgdpr-server/0.0.1/service.xml data/services/nifi/0.0.1/rewrite.xml data/services/nifi/0.0.1/service.xml data/services/nifiapi/0.0.1/rewrite.xml data/services/nifiapi/0.0.1/service.xml data/services/nifi-content-viewer/0.0.1/rewrite.xml data/services/nifi-content-viewer/0.0.1/service.xml data/services/nifi-docs/0.0.1/rewrite.xml data/services/nifi-docs/0.0.1/service.xml conf/topologies/sandbox.xml
 
 cd $DEST_DIR
 rm -rf *
