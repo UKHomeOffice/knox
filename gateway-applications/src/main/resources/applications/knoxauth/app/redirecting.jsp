@@ -14,9 +14,9 @@
 -->
 <%@ page import="java.util.Collection" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="org.apache.knox.gateway.topology.Topology" %>
-<%@ page import="org.apache.knox.gateway.topology.Service" %>
-<%@ page import="org.apache.knox.gateway.util.RegExUtils" %>
+<%@ page import="org.apache.hadoop.gateway.topology.Topology" %>
+<%@ page import="org.apache.hadoop.gateway.topology.Service" %>
+<%@ page import="org.apache.hadoop.gateway.util.RegExUtils" %>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
@@ -40,7 +40,7 @@
 
         <script type="text/javascript" src="js/knoxauth.js"></script>
 	<%
-        Topology topology = (Topology)request.getSession().getServletContext().getAttribute("org.apache.knox.gateway.topology");
+        Topology topology = (Topology)request.getSession().getServletContext().getAttribute("org.apache.hadoop.gateway.topology");
         String whitelist = null;
 	    Collection services = topology.getServices();
         for (Object service : services) {

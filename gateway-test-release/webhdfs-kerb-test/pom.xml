@@ -22,20 +22,12 @@
     <parent>
         <artifactId>gateway-test-release</artifactId>
         <groupId>org.apache.knox</groupId>
-<<<<<<< HEAD
         <version>0.13.0</version>
-=======
-        <version>1.0.0</version>
->>>>>>> upstream/v1.0.0
     </parent>
 
     <artifactId>webhdfs-kerb-test</artifactId>
     <name>webhdfs-kerb-test</name>
-<<<<<<< HEAD
     <version>0.13.0</version>
-=======
-    <version>1.0.0</version>
->>>>>>> upstream/v1.0.0
     <description>Tests for WebHDFS integration with Knox and Kerberos enabled</description>
     <build>
         <plugins>
@@ -55,36 +47,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${failsafe-version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-services</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.apache.knox</groupId>
-                                    <artifactId>gateway-service-definitions</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>target</outputDirectory>
-                                    <includes>**/services/**</includes>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputAbsoluteArtifactFilename>true</outputAbsoluteArtifactFilename>
-                            <overWriteSnapshots>true</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                            <stripVersion>true</stripVersion>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

@@ -15,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.knox.gateway.shell.hbase
+package org.apache.hadoop.gateway.shell.hbase
 
-import org.apache.knox.gateway.shell.Hadoop
+import org.apache.hadoop.gateway.shell.Hadoop
 
 import static java.util.concurrent.TimeUnit.SECONDS
 
-import org.apache.knox.gateway.shell.Credentials
+import org.apache.hadoop.gateway.shell.Credentials
 
 gateway = "https://localhost:8443/gateway/sandbox"
 tableName = "test_table"
