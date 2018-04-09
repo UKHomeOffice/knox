@@ -1,0 +1,18 @@
+<service role="PVGDPR_GUI" name="pvgdpr_gui" version="0.0.1">
+ <policies>
+ <policy role="webappsec"/>
+ <policy role="authentication" name="Anonymous"/>
+ <policy role="rewrite"/>
+ </policies>
+ <routes>
+ <route path="/pvgdpr_gui">
+            <!--rewrite apply="PVGDPR_GUI/pvgdpr_gui/outbound/filter" to="response.body"/ -->
+        </route>
+ <route path="/pvgdpr_gui/**">
+            <rewrite apply="PVGDPR_GUI/pvgdpr_gui/outbound/filter" to="response.body"/>
+ </route>
+ </routes>
+ <dispatch classname="org.apache.hadoop.gateway.pontus.PontusDispatch" ha-classname="org.apache.hadoop.gateway.pontus.PontusHaDispatch"/>
+ <!-- dispatch classname="org.apache.hadoop.gateway.dispatch.PassAllHeadersDispatch"/ -->
+</service>
+

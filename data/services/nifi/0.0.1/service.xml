@@ -1,0 +1,18 @@
+<service role="NIFI" name="nifi" version="0.0.1">
+ <policies>
+ <policy role="webappsec"/>
+ <policy role="authentication" name="Anonymous"/>
+ <policy role="rewrite"/>
+ </policies>
+ <routes>
+ <route path="/nifi">
+ </route>
+ <route path="/nifi/js/nf/canvas/nf-canvas-all.js">
+            <rewrite apply="NIFI/nifi/outbound/filter" to="response.body"/>
+ </route>
+ <route path="/nifi/**">
+ </route>
+ </routes>
+ <dispatch classname="org.apache.hadoop.gateway.dispatch.PassAllHeadersDispatch"/>
+</service>
+

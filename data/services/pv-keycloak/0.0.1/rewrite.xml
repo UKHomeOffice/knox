@@ -1,0 +1,11 @@
+<rules>
+ <rule dir="IN" name="PVKEYCLOAK/pvkeycloak/inbound/query" pattern="*://*:*/auth/{path=**}?{**}">
+ <rewrite template="{$serviceUrl[PVKEYCLOAK]}/{path}?{**}"/>
+ </rule>
+ <rule dir="IN" name="PVKEYCLOAK/pvkeycloak/inbound/path" pattern="*://*:*/auth/{**}">
+ <rewrite template="{$serviceUrl[PVKEYCLOAK]}/{**}"/>
+ </rule>
+ <rule dir="IN" name="PVKEYCLOAK/pvkeycloak/inbound/root" pattern="*://*:*/auth/">
+ <rewrite template="{$serviceUrl[PVKEYCLOAK]}/"/>
+ </rule>
+</rules>
