@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.apache.knox</groupId>
         <artifactId>gateway</artifactId>
-        <version>0.13.0</version>
+        <version>1.0.0</version>
     </parent>
     <artifactId>gateway-release</artifactId>
 
@@ -216,6 +216,10 @@
         </dependency>
         <dependency>
             <groupId>${gateway-group}</groupId>
+            <artifactId>gateway-service-nifi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${gateway-group}</groupId>
             <artifactId>gateway-provider-rewrite</artifactId>
         </dependency>
         <dependency>
@@ -239,10 +243,6 @@
             <artifactId>gateway-provider-rewrite-func-inbound-query-param</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>${gateway-group}</groupId>
-            <artifactId>gateway-provider-security-picketlink</artifactId>
-        </dependency>
         <dependency>
             <groupId>${gateway-group}</groupId>
             <artifactId>gateway-provider-security-shiro</artifactId>
@@ -333,6 +333,14 @@
         <dependency>
             <groupId>${gateway-group}</groupId>
             <artifactId>gateway-shell-samples</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${gateway-group}</groupId>
+            <artifactId>gateway-discovery-ambari</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${gateway-group}</groupId>
+            <artifactId>gateway-adapter</artifactId>
         </dependency>
 
         <dependency>

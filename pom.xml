@@ -26,7 +26,7 @@
     </parent>
     <groupId>org.apache.knox</groupId>
     <artifactId>gateway</artifactId>
-    <version>0.13.0</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>gateway</name>
@@ -45,6 +45,7 @@
         <module>gateway-i18n-logging-log4j</module>
         <module>gateway-i18n-logging-sl4j</module>
         <module>gateway-spi</module>
+        <module>gateway-discovery-ambari</module>
         <module>gateway-server</module>
         <module>gateway-server-launcher</module>
         <module>gateway-server-xforwarded-filter</module>
@@ -67,7 +68,6 @@
         <module>gateway-provider-identity-assertion-hadoop-groups</module>
         <module>gateway-provider-identity-assertion-regex</module>
         <module>gateway-provider-identity-assertion-switchcase</module>
-        <module>gateway-provider-security-picketlink</module>
         <module>gateway-provider-identity-assertion-pseudo</module>
         <module>gateway-provider-jersey</module>
         <module>gateway-provider-ha</module>
@@ -83,10 +83,12 @@
         <module>gateway-service-tgs</module>
         <module>gateway-service-rm</module>
         <module>gateway-service-storm</module>
+        <module>gateway-service-remoteconfig</module>
         <module>gateway-service-definitions</module>
         <module>gateway-shell</module>
         <module>gateway-shell-launcher</module>
         <module>knox-cli-launcher</module>
+        <module>gateway-adapter</module>
         <module>hadoop-examples</module>
         <module>gateway-release</module>
         <module>gateway-test</module>
@@ -97,6 +99,7 @@
         <module>gateway-shell-samples</module>
         <module>gateway-shell-release</module>
         <module>gateway-test-release-utils</module>
+        <module>gateway-service-nifi</module>
     </modules>
 
     <properties>
@@ -107,17 +110,20 @@
         <gateway-name>Apache Knox</gateway-name>
         <gateway-project>knox</gateway-project>
         <gateway-artifact>knox</gateway-artifact>
-        <gateway-version>0.13.0</gateway-version>
+        <gateway-version>1.0.0</gateway-version>
         <gateway-group>org.apache.knox</gateway-group>
         <groovy-version>2.4.6</groovy-version>
-        <hadoop-version>2.7.3</hadoop-version>
+        <hadoop-version>3.0.0</hadoop-version>
+        <jackson.version>2.8.10</jackson.version>
         <jetty-version>9.2.15.v20160210</jetty-version>
+        <mockito-version>1.10.19</mockito-version>
         <surefire-version>2.16</surefire-version>
         <failsafe-version>2.19.1</failsafe-version>
         <apacheds-version>2.0.0-M16</apacheds-version>
         <javax-websocket-version>1.1</javax-websocket-version>
         <metrics-version>3.1.2</metrics-version>
         <shiro.version>1.2.6</shiro.version>
+        <commons-beanutils-version>1.9.3</commons-beanutils-version>
     </properties>
 
     <licenses>
@@ -191,13 +197,13 @@
                 </plugins>
             </build>
             <properties>
-                <failsafe.group>org.apache.hadoop.test.category.VerifyTest</failsafe.group>
+                <failsafe.group>org.apache.knox.test.category.VerifyTest</failsafe.group>
             </properties>
         </profile>
         <profile>
             <id>release</id>
             <properties>
-                <failsafe.group>org.apache.hadoop.test.category.VerifyTest,org.apache.hadoop.test.category.ReleaseTest</failsafe.group>
+                <failsafe.group>org.apache.knox.test.category.VerifyTest,org.apache.knox.test.category.ReleaseTest</failsafe.group>
             </properties>
         </profile>
         <profile>
@@ -206,7 +212,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <failsafe.group>org.apache.hadoop.test.category.VerifyTest</failsafe.group>
+                <failsafe.group>org.apache.knox.test.category.VerifyTest</failsafe.group>
             </properties>
         </profile>
     </profiles>
@@ -278,6 +284,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <revisionOnScmFailure>${gateway-version}</revisionOnScmFailure>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -290,8 +299,8 @@
                 <version>3.3</version>
                 <configuration>
                     <compilerId>javac</compilerId>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <debug>true</debug>
                 </configuration>
                 <dependencies>
@@ -307,7 +316,7 @@
                 <version>${surefire-version}</version>
                 <configuration>
                     <excludedGroups>
-                        org.apache.hadoop.test.category.SlowTests,org.apache.hadoop.test.category.ManualTests,org.apache.hadoop.test.category.VerifyTest,org.apache.hadoop.test.category.ReleaseTest
+                        org.apache.knox.test.category.SlowTests,org.apache.knox.test.category.ManualTests,org.apache.knox.test.category.VerifyTest,org.apache.knox.test.category.ReleaseTest
                     </excludedGroups>
                     <systemPropertyVariables>
                         <gateway-version>${gateway-version}</gateway-version>
@@ -335,6 +344,30 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <executions>
+                  <execution>
+                    <id>enforce-maven</id>
+                    <goals>
+                      <goal>enforce</goal>
+                    </goals>
+                    <configuration>
+                      <rules>
+                        <requireMavenVersion>
+                          <version>[3.0.2,)</version>
+                        </requireMavenVersion>
+                        <requireJavaVersion>
+                          <version>[1.8,)</version>
+                        </requireJavaVersion>
+                      </rules>
+                    </configuration>
+                  </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -474,11 +507,6 @@
             </dependency>
             <dependency>
                 <groupId>${gateway-group}</groupId>
-                <artifactId>gateway-provider-security-picketlink</artifactId>
-                <version>${gateway-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${gateway-group}</groupId>
                 <artifactId>gateway-provider-security-preauth</artifactId>
                 <version>${gateway-version}</version>
             </dependency>
@@ -609,6 +637,11 @@
             </dependency>
             <dependency>
                 <groupId>${gateway-group}</groupId>
+                <artifactId>gateway-service-remoteconfig</artifactId>
+                <version>${gateway-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${gateway-group}</groupId>
                 <artifactId>gateway-service-test</artifactId>
                 <version>${gateway-version}</version>
             </dependency>
@@ -649,6 +682,11 @@
             </dependency>
             <dependency>
                 <groupId>${gateway-group}</groupId>
+                <artifactId>gateway-service-nifi</artifactId>
+                <version>${gateway-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${gateway-group}</groupId>
                 <artifactId>gateway-server</artifactId>
                 <version>${gateway-version}</version>
             </dependency>
@@ -679,7 +717,17 @@
             </dependency>
             <dependency>
                 <groupId>${gateway-group}</groupId>
+                <artifactId>gateway-adapter</artifactId>
+                <version>${gateway-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${gateway-group}</groupId>
                 <artifactId>hadoop-examples</artifactId>
+                <version>${gateway-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${gateway-group}</groupId>
+                <artifactId>gateway-discovery-ambari</artifactId>
                 <version>${gateway-version}</version>
             </dependency>
             <dependency>
@@ -702,17 +750,6 @@
                 <artifactId>gateway-shell-samples</artifactId>
                 <version>${gateway-version}</version>
             </dependency>
-
-        <dependency>
-            <groupId>org.picketlink</groupId>
-            <artifactId>picketlink-federation</artifactId>
-            <version>2.7.0.CR3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging</artifactId>
-            <version>3.2.0.Final</version>
-        </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet</artifactId>
@@ -726,7 +763,7 @@
             <dependency>
               <groupId>com.nimbusds</groupId>
               <artifactId>nimbus-jose-jwt</artifactId>
-              <version>4.11</version>
+              <version>4.41.2</version>
               <scope>compile</scope>
               <exclusions>
                 <exclusion>
@@ -986,13 +1023,26 @@
                         <groupId>xmlenc</groupId>
                         <artifactId>xmlenc</artifactId>
                     </exclusion>
+
+                    <exclusion>
+                        <groupId>com.sun.jersey</groupId>
+                        <artifactId>jersey-servlet</artifactId>
+                    </exclusion>
+
+                    <!--
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                    -->
+
                 </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.2.2</version>
+                <version>${jackson.version}</version>
             </dependency>
 
             <dependency>
@@ -1028,7 +1078,7 @@
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
-                <version>1.9.2</version>
+                <version>${commons-beanutils-version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -1117,12 +1167,22 @@
             <dependency>
                 <groupId>org.apache.zookeeper</groupId>
                 <artifactId>zookeeper</artifactId>
-                <version>3.4.6</version>
+                <version>3.4.10</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-framework</artifactId>
-                <version>2.6.0</version>
+                <version>4.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>4.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-client</artifactId>
+                <version>4.0.0</version>
             </dependency>
 
             <!-- Html pull parser.  EPLv1 license -->
@@ -1253,20 +1313,10 @@
 
             <!-- JUnit must be before Junit otherwise it is messes up the hamcrest dependencies -->
             <dependency>
-                <groupId>com.jayway.restassured</groupId>
+                <groupId>io.rest-assured</groupId>
                 <artifactId>rest-assured</artifactId>
-                <version>1.8.1</version>
+                <version>3.0.3</version>
                 <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.codehaus.jackson</groupId>
-                        <artifactId>jackson-core-asl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.codehaus.jackson</groupId>
-                        <artifactId>jackson-mapper-asl</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -1278,7 +1328,7 @@
             <dependency>
                 <groupId>org.easymock</groupId>
                 <artifactId>easymock</artifactId>
-                <version>3.0</version>
+                <version>3.5</version>
                 <scope>test</scope>
             </dependency>
 
@@ -1298,7 +1348,7 @@
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>1.10.19</version>
+                <version>${mockito-version}</version>
                 <scope>test</scope>
             </dependency>
 
@@ -1312,22 +1362,21 @@
             <dependency>
                 <groupId>com.jayway.jsonpath</groupId>
                 <artifactId>json-path</artifactId>
-                <version>0.9.1</version>
+                <version>2.4.0</version>
             </dependency>
             <dependency>
                 <groupId>com.jayway.jsonpath</groupId>
                 <artifactId>json-path-assert</artifactId>
-                <version>0.9.1</version>
+                <version>2.4.0</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-test</artifactId>
-                <version>2.6.0</version>
+                <version>2.12.0</version>
                 <scope>test</scope>
             </dependency>
-
 
         </dependencies>
     </dependencyManagement>

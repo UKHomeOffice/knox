@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.apache.knox</groupId>
         <artifactId>gateway</artifactId>
-        <version>0.13.0</version>
+        <version>1.0.0</version>
     </parent>
     <artifactId>gateway-shell-release</artifactId>
 
@@ -52,7 +52,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.apache.hadoop.gateway.launcher.Launcher</mainClass>
+                                    <mainClass>org.apache.knox.gateway.launcher.Launcher</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -168,6 +168,10 @@
         <dependency>
             <groupId>${gateway-group}</groupId>
             <artifactId>gateway-shell-samples</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${gateway-group}</groupId>
+            <artifactId>hadoop-examples</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
