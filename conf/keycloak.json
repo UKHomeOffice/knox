@@ -1,0 +1,11 @@
+{
+  "realm": "pontus",
+  "auth-server-url": "https://localhost:5005/auth",
+  "ssl-required": "external",
+  "resource": "broker",
+  "credentials": {
+    "secret": "91fff12e-9b97-4028-8705-ffd8126fba3f"
+  },
+  "use-resource-role-mappings": true,
+  "policy-enforcer": {}
+}
